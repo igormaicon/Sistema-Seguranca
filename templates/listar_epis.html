@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Listar EPIs
+{% endblock %}
+
+{% block content %}
+<section class="list-section">
+    <h1>
+        Listar EPIs
+    </h1>
+
+    {% if epis %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        Nome
+                    </th>
+                    <th>
+                        Número do CA
+                    </th>
+                    <th>
+                        Descrição
+                    </th>
+                    <th>
+                        Fabricante
+                    </th>
+                    <th>
+                        Data de Validade
+                    </th>
+                    <th>
+                        Controlar Periodicidade
+                    </th>
+                    <th>
+                        Periodicidade de Troca (dias)
+                    </th>
+                    <th>
+                        Quantidade em Estoque
+                    </th>
+                    <th>
+                        Estoque Mínimo
+                    </th>
+                    <th>
+                        Ações
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for epi in epis %}
+                <tr>
+                    <td>
+                        {{ epi['nome'] }}
+                    </td>
+                    <td>
+                        {{ epi['ca'] or '-' }}
+                    </td>
+                    <td>
+                        {{ epi['descricao'] }}
+                    </td>
+                    <td>
+                        {{ epi['fabricante'] or '-' }}
+                    </td>
+                    <td>
+                        {% if epi['data_validade'] %}
+                            {{ epi['data_validade'].split('-')[2] }}/{{ epi['data_validade'].split('-')[1] }}/{{ epi['data_validade'].split('-')[0] }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ epi['controlar_periodicidade'] }}
+                    </td>
+                    <td>
+                        {{ epi['periodicidade_troca'] or '-' }}
+                    </td>
+                    <td>
+                        {{ epi['quantidade_estoque'] }}
+                    </td>
+                    <td>
+                        {{ epi['estoque_minimo'] }}
+                    </td>
+                    <td class="action-buttons">
+                        <a href="/editar_epi/{{ epi['id'] }}" class="action-button edit-button">
+                            <i class="fas fa-edit">
+                            </i>
+                        </a>
+                        <a href="/excluir_epi/{{ epi['id'] }}" class="action-button delete-button">
+                            <i class="fas fa-trash-alt">
+                            </i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>
+        Não há EPIs para exibir.
+    </p>
+    {% endif %}
+
+    <p>
+        <a href="/epis">
+            Voltar para Gerenciamento de EPIs
+        </a>
+    </p>
+</section>
+{% endblock %}

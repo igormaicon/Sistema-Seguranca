@@ -1,0 +1,1272 @@
+body {
+    font-family: sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1em 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+main {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+footer {
+    text-align: center;
+    color: #777;
+    font-size: 0.8em;
+}
+
+hr {
+    border: 1px solid #ddd;
+    margin: 1em 0;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="date"],
+select, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button[type="submit"] {
+    background-color: #5cb85c;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+button[type="submit"]:hover {
+    background-color: #4cae4c;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos para a tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #e0e0e0;
+}
+
+/* Estilos para os botões de ação */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.action-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8em;
+}
+
+.edit-button {
+    background-color: #5bc0de;
+    color: white;
+}
+
+.delete-button {
+    background-color: #d9534f;
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: #46b8da;
+}
+
+.delete-button:hover {
+    background-color: #d43f3c;
+}
+
+/* Estilos para formulários */
+.form-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.form-section h1 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.form-button:hover {
+    background-color: #0056b3;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos para a listagem */
+.list-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.list-section h1 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.filter-section {
+    margin-bottom: 15px;
+}
+
+.filter-section h2 {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.filter-section p a {
+    margin-right: 10px;
+}
+
+.table-container {
+    overflow-x: auto;
+    /* Adiciona barra de rolagem horizontal se a tabela for muito larga */
+}
+
+/* Estilos para o cabeçalho da página */
+.page-header {
+    background-color: #f8f8f8;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.page-header h1 {
+    margin-top: 0;
+    font-size: 2em;
+    color: #555;
+}
+
+.page-header p {
+    font-size: 1.1em;
+    color: #777;
+}
+
+/* Estilos para os indicadores */
+.indicators {
+    margin-bottom: 20px;
+}
+
+.indicators h2 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.indicator-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.indicator-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    /* Ajuste conforme necessário */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.indicator-card i {
+    font-size: 2em;
+    /* Ajuste conforme necessário */
+    margin-bottom: 10px;
+    color: #007bff;
+    /* Cor do ícone */
+}
+
+.indicator-value {
+    font-size: 1.5em;
+    /* Ajuste conforme necessário */
+    font-weight: bold;
+    color: #333;
+}
+
+.indicator-label {
+    font-size: 1em;
+    /* Ajuste conforme necessário */
+    color: #777;
+}
+
+.indicator-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.indicator-card ul li {
+    font-size: 1em;
+    color: #777;
+}
+
+/* Estilos para as ações */
+.actions {
+    margin-bottom: 20px;
+}
+
+.actions h2 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.action-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.action-button i {
+    font-size: 1.2em;
+}
+
+.action-button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para formulários */
+.form-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.form-section h1 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.form-button:hover {
+    background-color: #0056b3;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos para a listagem */
+.list-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.list-section h1 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.filter-section {
+    margin-bottom: 15px;
+}
+
+.filter-section h2 {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.filter-section p a {
+    margin-right: 10px;
+}
+
+.table-container {
+    overflow-x: auto;
+    /* Adiciona barra de rolagem horizontal se a tabela for muito larga */
+}
+
+/* Estilos para o cabeçalho da página */
+.page-header {
+    background-color: #f8f8f8;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.page-header h1 {
+    margin-top: 0;
+    font-size: 2em;
+    color: #555;
+}
+
+.page-header p {
+    font-size: 1.1em;
+    color: #777;
+}
+
+/* Estilos para os indicadores */
+.indicators {
+    margin-bottom: 20px;
+}
+
+.indicators h2 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.indicator-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.indicator-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    /* Ajuste conforme necessário */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.indicator-card i {
+    font-size: 2em;
+    /* Ajuste conforme necessário */
+    margin-bottom: 10px;
+    color: #007bff;
+    /* Cor do ícone */
+}
+
+.indicator-value {
+    font-size: 1.5em;
+    /* Ajuste conforme necessário */
+    font-weight: bold;
+    color: #333;
+}
+
+.indicator-label {
+    font-size: 1em;
+    /* Ajuste conforme necessário */
+    color: #777;
+}
+
+.indicator-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.indicator-card ul li {
+    font-size: 1em;
+    color: #777;
+}
+
+/* Estilos para as ações */
+.actions {
+    margin-bottom: 20px;
+}
+
+.actions h2 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.action-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.action-button i {
+    font-size: 1.2em;
+}
+
+.action-button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para formulários */
+.form-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.form-section h1 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.form-button:hover {
+    background-color: #0056b3;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos para a listagem */
+.list-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.list-section h1 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.filter-section {
+    margin-bottom: 15px;
+}
+
+.filter-section h2 {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.filter-section p a {
+    margin-right: 10px;
+}
+
+.table-container {
+    overflow-x: auto;
+    /* Adiciona barra de rolagem horizontal se a tabela for muito larga */
+}
+
+/* Estilos para o cabeçalho da página */
+.page-header {
+    background-color: #f8f8f8;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.page-header h1 {
+    margin-top: 0;
+    font-size: 2em;
+    color: #555;
+}
+
+.page-header p {
+    font-size: 1.1em;
+    color: #777;
+}
+
+/* Estilos para os indicadores */
+.indicators {
+    margin-bottom: 20px;
+}
+
+.indicators h2 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.indicator-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.indicator-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    /* Ajuste conforme necessário */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.indicator-card i {
+    font-size: 2em;
+    /* Ajuste conforme necessário */
+    margin-bottom: 10px;
+    color: #007bff;
+    /* Cor do ícone */
+}
+
+.indicator-value {
+    font-size: 1.5em;
+    /* Ajuste conforme necessário */
+    font-weight: bold;
+    color: #333;
+}
+
+.indicator-label {
+    font-size: 1em;
+    /* Ajuste conforme necessário */
+    color: #777;
+}
+
+.indicator-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.indicator-card ul li {
+    font-size: 1em;
+    color: #777;
+}
+
+/* Estilos para as ações */
+.actions {
+    margin-bottom: 20px;
+}
+
+.actions h2 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.action-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.action-button i {
+    font-size: 1.2em;
+}
+
+.action-button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para formulários */
+.form-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.form-section h1 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.form-button:hover {
+    background-color: #0056b3;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos para a listagem */
+.list-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.list-section h1 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.filter-section {
+    margin-bottom: 15px;
+}
+
+.filter-section h2 {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.filter-section p a {
+    margin-right: 10px;
+}
+
+.table-container {
+    overflow-x: auto;
+    /* Adiciona barra de rolagem horizontal se a tabela for muito larga */
+}
+
+/* Estilos para o cabeçalho da página */
+.page-header {
+    background-color: #f8f8f8;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.page-header h1 {
+    margin-top: 0;
+    font-size: 2em;
+    color: #555;
+}
+
+.page-header p {
+    font-size: 1.1em;
+    color: #777;
+}
+
+/* Estilos para os indicadores */
+.indicators {
+    margin-bottom: 20px;
+}
+
+.indicators h2 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.indicator-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.indicator-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    /* Ajuste conforme necessário */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.indicator-card i {
+    font-size: 2em;
+    /* Ajuste conforme necessário */
+    margin-bottom: 10px;
+    color: #007bff;
+    /* Cor do ícone */
+}
+
+.indicator-value {
+    font-size: 1.5em;
+    /* Ajuste conforme necessário */
+    font-weight: bold;
+    color: #333;
+}
+
+.indicator-label {
+    font-size: 1em;
+    /* Ajuste conforme necessário */
+    color: #777;
+}
+
+.indicator-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.indicator-card ul li {
+    font-size: 1em;
+    color: #777;
+}
+
+/* Estilos para as ações */
+.actions {
+    margin-bottom: 20px;
+}
+
+.actions h2 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.action-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.action-button i {
+    font-size: 1.2em;
+}
+
+.action-button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para formulários */
+.form-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.form-section h1 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.form-button:hover {
+    background-color: #0056b3;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Estilos para a listagem */
+.list-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.list-section h1 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.filter-section {
+    margin-bottom: 15px;
+}
+
+.filter-section h2 {
+    font-size: 1.2em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.filter-section p a {
+    margin-right: 10px;
+}
+
+.table-container {
+    overflow-x: auto;
+    /* Adiciona barra de rolagem horizontal se a tabela for muito larga */
+}
+
+/* Estilos para o cabeçalho da página */
+.page-header {
+    background-color: #f8f8f8;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.page-header h1 {
+    margin-top: 0;
+    font-size: 2em;
+    color: #555;
+}
+
+.page-header p {
+    font-size: 1.1em;
+    color: #777;
+}
+
+/* Estilos para os indicadores */
+.indicators {
+    margin-bottom: 20px;
+}
+
+.indicators h2 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.indicator-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.indicator-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    /* Ajuste conforme necessário */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.indicator-card i {
+    font-size: 2em;
+    /* Ajuste conforme necessário */
+    margin-bottom: 10px;
+    color: #007bff;
+    /* Cor do ícone */
+}
+
+.indicator-value {
+    font-size: 1.5em;
+    /* Ajuste conforme necessário */
+    font-weight: bold;
+    color: #333;
+}
+
+.indicator-label {
+    font-size: 1em;
+    /* Ajuste conforme necessário */
+    color: #777;
+}
+
+.indicator-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.indicator-card ul li {
+    font-size: 1em;
+    color: #777;
+}
+
+/* Estilos para as ações */
+.actions {
+    margin-bottom: 20px;
+}
+
+.actions h2 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.action-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.action-button i {
+    font-size: 1.2em;
+}
+
+.action-button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para as opções de busca (EPIs e Colaboradores) */
+.opcoes-busca {
+    position: absolute;
+    z-index: 10;
+    /* Para garantir que a lista apareça sobre outros elementos */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    width: 100%;
+    /* Ajuste conforme necessário */
+    max-height: 200px;
+    /* Altura máxima da lista */
+    overflow-y: auto;
+    /* Adiciona barra de rolagem se necessário */
+    display: none;
+    /* Oculta as opções inicialmente */
+}
+
+.opcao-item {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.opcao-item:hover {
+    background-color: #f0f0f0;
+}
+
+/* Estilos para os itens selecionados */
+.selecionados-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.item-selecionado {
+    background-color: #e0e0e0;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    display: flex;
+    align-items: center;
+}
+
+.item-selecionado button {
+    background-color: #ccc;
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8em;
+    margin-left: 5px;
+}
+
+.item-selecionado button:hover {
+    background-color: #bbb;
+}

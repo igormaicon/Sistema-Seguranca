@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Listar Colaboradores
+{% endblock %}
+
+{% block content %}
+<section class="list-section">
+    <h1>
+        Listar Colaboradores
+    </h1>
+
+    <section class="filter-section">
+        <h2>
+            Filtrar por Status
+        </h2>
+        <p>
+            <a href="/listar_colaboradores">
+                Todos
+            </a>
+            |
+            <a href="/listar_colaboradores?status=Ativo">
+                Ativos
+            </a>
+            |
+            <a href="/listar_colaboradores?status=Desligado">
+                Desligados
+            </a>
+        </p>
+    </section>
+
+    {% if colaboradores %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        Nome Completo
+                    </th>
+                    <th>
+                        RG
+                    </th>
+                    <th>
+                        CPF
+                    </th>
+                    <th>
+                        Função
+                    </th>
+                    <th>
+                        Setor
+                    </th>
+                    <th>
+                        Data de Admissão
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Data de Desligamento
+                    </th>
+                    <th>
+                        Ações
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for colaborador in colaboradores %}
+                <tr>
+                    <td>
+                        {{ colaborador['nome_completo'] }}
+                    </td>
+                    <td>
+                        {{ colaborador['rg'] }}
+                    </td>
+                    <td>
+                        {{ colaborador['cpf'] }}
+                    </td>
+                    <td>
+                        {{ colaborador['funcao'] }}
+                    </td>
+                    <td>
+                        {{ colaborador['setor'] }}
+                    </td>
+                    <td>
+                        {{ colaborador['data_admissao'] }}
+                    </td>
+                    <td>
+                        {{ colaborador['status'] }}
+                    </td>
+                    <td>
+                        {{ colaborador['data_desligamento'] or '-' }}
+                    </td>
+                    <td class="action-buttons">
+                        <a href="/editar_colaborador/{{ colaborador['id'] }}" class="action-button edit-button">
+                            <i class="fas fa-edit">
+                            </i>
+                        </a>
+                        <a href="/excluir_colaborador/{{ colaborador['id'] }}" class="action-button delete-button">
+                            <i class="fas fa-trash-alt">
+                            </i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>
+        Não há colaboradores para exibir.
+    </p>
+    {% endif %}
+
+    <p>
+        <a href="/colaboradores">
+            Voltar para Gerenciamento de Colaboradores
+        </a>
+    </p>
+</section>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Editar Entrega de EPI
+{% endblock %}
+
+{% block content %}
+<section class="form-section">
+    <h1>
+        Editar Entrega de EPI
+    </h1>
+
+    {% if entrega %}
+    <form method="POST" action="/editar_entrega_epi/{{ entrega['id'] }}">
+        <div class="form-group">
+            <label for="epi_id">
+                EPI:
+            </label>
+            <select id="epi_id" name="epi_id" required>
+                {% for epi in epis %}
+                    <option value="{{ epi['id'] }}" {% if entrega['epi_id'] == epi['id'] %} selected {% endif %}>
+                        {{ epi['nome'] }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="colaborador_id">
+                Colaborador:
+            </label>
+            <select id="colaborador_id" name="colaborador_id" required>
+                {% for colaborador in colaboradores %}
+                    <option value="{{ colaborador['id'] }}" {% if entrega['colaborador_id'] == colaborador['id'] %} selected {% endif %}>
+                        {{ colaborador['nome_completo'] }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="data_entrega">
+                Data de Entrega:
+            </label>
+            <input type="date" id="data_entrega" name="data_entrega" value="{{ entrega['data_entrega'] }}" required>
+        </div>
+        <div class="form-group">
+            <label for="quantidade_entregue">
+                Quantidade Entregue:
+            </label>
+            <input type="number" id="quantidade_entregue" name="quantidade_entregue" value="{{ entrega['quantidade_entregue'] }}" required>
+        </div>
+        <button type="submit" class="form-button">
+            Salvar Alterações
+        </button>
+    </form>
+    {% else %}
+        <p>Entrega de EPI não encontrada.</p>
+    {% endif %}
+
+    <p><a href="/listar_entregas_epi">Voltar para a Listagem de Entregas</a></p>
+</section>
+{% endblock %}

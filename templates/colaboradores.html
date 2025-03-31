@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Gerenciamento de Colaboradores
+{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <h1>
+        Gerenciamento de Colaboradores
+    </h1>
+    <p>
+        Visualize os indicadores e gerencie os colaboradores do sistema.
+    </p>
+</section>
+
+<section class="indicators">
+    <h2>
+        Indicadores
+    </h2>
+    <div class="indicator-cards">
+        <div class="indicator-card">
+            <i class="fas fa-user-check">
+            </i>
+            <span class="indicator-value">
+                {{ total_ativos }}
+            </span>
+            <span class="indicator-label">
+                Colaboradores Ativos
+            </span>
+        </div>
+        <div class="indicator-card">
+            <i class="fas fa-user-slash">
+            </i>
+            <span class="indicator-value">
+                {{ total_desligados }}
+            </span>
+            <span class="indicator-label">
+                Colaboradores Desligados
+            </span>
+        </div>
+        <div class="indicator-card">
+            <i class="fas fa-users">
+            </i>
+            <span class="indicator-label">
+                Colaboradores por Setor
+            </span>
+            <ul>
+                {% for setor, quantidade in colaboradores_por_setor.items() %}
+                <li>
+                    {{ setor }}: {{ quantidade }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="indicator-card">
+            <i class="fas fa-birthday-cake">
+            </i>
+            <span class="indicator-label">
+                Colaboradores por Idade
+            </span>
+            <span class="indicator-value">
+                A implementar
+            </span>
+        </div>
+    </div>
+</section>
+
+<section class="actions">
+    <h2>
+        Ações
+    </h2>
+    <div class="action-buttons">
+        <a href="/cadastrar_colaborador" class="action-button">
+            <i class="fas fa-user-plus">
+            </i>
+            Cadastrar Novo Colaborador
+        </a>
+        <a href="/listar_colaboradores" class="action-button">
+            <i class="fas fa-list">
+            </i>
+            Listar Colaboradores
+        </a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Cadastrar Colaborador
+{% endblock %}
+
+{% block content %}
+<section class="form-section">
+    <h1>
+        Cadastrar Novo Colaborador
+    </h1>
+    <form method="POST" action="/cadastro_colaborador">
+        <div class="form-group">
+            <label for="nome_completo">
+                Nome Completo:
+            </label>
+            <input type="text" id="nome_completo" name="nome_completo" required>
+        </div>
+        <div class="form-group">
+            <label for="rg">
+                RG:
+            </label>
+            <input type="text" id="rg" name="rg" required>
+        </div>
+        <div class="form-group">
+            <label for="cpf">
+                CPF:
+            </label>
+            <input type="text" id="cpf" name="cpf" required>
+        </div>
+        <div class="form-group">
+            <label for="funcao">
+                Função:
+            </label>
+            <input type="text" id="funcao" name="funcao" required>
+        </div>
+        <div class="form-group">
+            <label for="setor">
+                Setor:
+            </label>
+            <input type="text" id="setor" name="setor" required>
+        </div>
+        <div class="form-group">
+            <label for="data_admissao">
+                Data de Admissão:
+            </label>
+        <input type="date" id="data_admissao" name="data_admissao" required>
+    </div>
+    <div class="form-group">
+        <label for="status">
+            Status:
+        </label>
+        <select id="status" name="status" onchange="toggleDataDesligamento()">
+            <option value="Ativo" selected>
+                Ativo
+            </option>
+            <option value="Desligado">
+                Desligado
+            </option>
+        </select>
+    </div>
+    <div class="form-group" id="div_data_desligamento">
+        <label for="data_desligamento">
+            Data de Desligamento (se desligado):
+        </label>
+        <input type="date" id="data_desligamento" name="data_desligamento">
+    </div>
+    <button type="submit" class="form-button">
+        Cadastrar
+    </button>
+</form>
+
+<p>
+    <a href="/colaboradores">
+        Voltar para Gerenciamento de Colaboradores
+    </a>
+</p>
+
+<script>
+    function toggleDataDesligamento() {
+        var statusSelect = document.getElementById("status");
+        var divDataDesligamento = document.getElementById("div_data_desligamento");
+        var dataDesligamentoInput = document.getElementById("data_desligamento");
+
+        if (statusSelect.value === "Ativo") {
+            divDataDesligamento.style.display = "none";
+            dataDesligamentoInput.value = ""; // Limpa o valor do campo
+        } else {
+            divDataDesligamento.style.display = "block";
+        }
+    }
+
+    // Executar a função inicialmente para definir o estado inicial
+    toggleDataDesligamento();
+</script>
+</section>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Gerenciamento de EPIs
+{% endblock %}
+
+{% block content %}
+<section class="epis-section">
+    <h1>
+        Gerenciamento de EPIs
+    </h1>
+    <p>
+        Esta página permite gerenciar os Equipamentos de Proteção Individual (EPIs) utilizados pelos colaboradores.
+    </p>
+
+    <div class="epis-actions">
+        <a href="/cadastrar_epi" class="action-button">
+            <i class="fas fa-plus-circle">
+            </i>
+            Cadastrar Novo EPI
+        </a>
+        <a href="/listar_epis" class="action-button">
+            <i class="fas fa-list-ul">
+            </i>
+            Listar EPIs
+        </a>
+        <a href="/entregar_epi/1" class="action-button">
+            <i class="fas fa-truck">
+            </i>
+            Entregar EPI
+        </a>
+        <a href="/listar_entregas_epi" class="action-button">
+            <i class="fas fa-truck-loading">
+            </i>
+            Listar Entregas
+        </a>
+        </div>
+</section>
+{% endblock %}

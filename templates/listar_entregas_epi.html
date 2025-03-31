@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Listar Entregas de EPIs
+{% endblock %}
+
+{% block content %}
+<section class="list-section">
+    <h1>
+        Listar Entregas de EPIs
+    </h1>
+
+    <button id="btn_filtro">Filtro</button>
+
+    {% if entregas %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        EPI
+                    </th>
+                    <th>
+                        Colaborador
+                    </th>
+                    <th>
+                        Data de Entrega
+                    </th>
+                    <th>
+                        Quantidade Entregue
+                    </th>
+                    <th>
+                        Ações
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entrega in entregas %}
+                <tr>
+                    <td>
+                        {{ entrega['epi_nome'] }}
+                    </td>
+                    <td>
+                        {{ entrega['colaborador_nome'] }}
+                    </td>
+                    <td>
+                        {{ entrega['data_entrega'] }}
+                    </td>
+                    <td>
+                        {{ entrega['quantidade_entregue'] }}
+                    </td>
+                    <td class="action-buttons">
+                        <a href="/editar_entrega_epi/{{ entrega['id'] }}" class="action-button edit-button">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="/excluir_entrega_epi/{{ entrega['id'] }}" class="action-button delete-button">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>
+        Não há entregas de EPIs para exibir.
+    </p>
+    {% endif %}
+
+    <p>
+        <a href="/epis">
+            Voltar para Gerenciamento de EPIs
+        </a>
+    </p>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+<script>
+    $(document).ready(function() {
+        $("#btn_filtro").click(function(){
+            alert("Filtro");
+        })
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Entregar EPI
+{% endblock %}
+
+{% block content %}
+<section class="form-section">
+    <h1>
+        Entregar EPI a Colaborador
+    </h1>
+    <form method="POST" action="/entrega_epi">
+        <div class="form-group">
+            <label for="epi_id">
+                EPI:
+            </label>
+            <select id="epi_id" name="epi_id" required>
+                <option value="">
+                    Selecione um EPI
+                </option>
+                {% for epi in epis %}
+                <option value="{{ epi['id'] }}">
+                    {{ epi['nome'] }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="colaborador_id">
+                Colaborador:
+            </label>
+            <select id="colaborador_id" name="colaborador_id" required>
+                <option value="">
+                    Selecione um Colaborador
+                </option>
+                {% for colaborador in colaboradores %}
+                <option value="{{ colaborador['id'] }}">
+                    {{ colaborador['nome_completo'] }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="data_entrega">
+                Data de Entrega:
+            </label>
+            <input type="date" id="data_entrega" name="data_entrega" required>
+        </div>
+        <div class="form-group">
+            <label for="quantidade_entregue">
+                Quantidade Entregue:
+            </label>
+            <input type="number" id="quantidade_entregue" name="quantidade_entregue" value="1" required>
+        </div>
+        <button type="submit" class="form-button">
+            Registrar Entrega
+        </button>
+    </form>
+
+    <p>
+        <a href="/epis">
+            Voltar para Gerenciamento de EPIs
+        </a>
+    </p>
+</section>
+{% endblock %}
