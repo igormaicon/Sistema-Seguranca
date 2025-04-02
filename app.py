@@ -520,5 +520,268 @@ def listar_entradas_epi():
     """).fetchall()
     return render_template('listar_entradas_epi.html', entradas=entradas)
 
+@app.route('/registrar_incidente', methods=['POST'])
+def registrar_incidente():
+    if request.method == 'POST':
+        data_incidente = request.form['data_incidente']
+        hora_incidente = request.form['hora_incidente']
+        local_incidente = request.form['local_incidente']
+        descricao_incidente = request.form['descricao_incidente']
+        tipo_incidente = request.form['tipo_incidente']
+        gravidade_incidente = request.form['gravidade_incidente']
+        colaboradores_envolvidos = request.form['colaboradores_envolvidos']
+        equipamentos_envolvidos = request.form['equipamentos_envolvidos']
+        acoes_tomadas = request.form.get('acoes_tomadas')  # Use .get() para campos não obrigatórios
+
+        db = get_db()
+        try:
+            db.execute("""
+                INSERT INTO incidentes (data_incidente, hora_incidente, local_incidente, descricao_incidente,
+                                        tipo_incidente, gravidade_incidente, colaboradores_envolvidos,
+                                        equipamentos_envolvidos, acoes_tomadas)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (data_incidente, hora_incidente, local_incidente, descricao_incidente,
+                  tipo_incidente, gravidade_incidente, colaboradores_envolvidos,
+                  equipamentos_envolvidos, acoes_tomadas))
+            db.commit()
+            app.logger.info(f"Incidente registrado: {descricao_incidente}")
+            return "Incidente registrado com sucesso! <a href='/incidentes'>Voltar para Incidentes</a>"
+        except sqlite3.Error as e:
+            return f"Erro ao registrar incidente: {e}. <a href='/incidentes'>Tentar novamente</a>"
+
+@app.route('/listar_incidentes')
+def listar_incidentes():
+    db = get_db()
+    query = "SELECT * FROM incidentes WHERE 1"  # Inicializa a query com uma condição verdadeira
+    params = []
+
+    # Filtrar por data
+    data_incidente = request.args.get('data_incidente')
+    if data_incidente:
+        query += " AND data_incidente = ?"
+        params.append(data_incidente)
+
+    # Filtrar por tipo
+    tipo_incidente = request.args.get('tipo_incidente')
+    if tipo_incidente:
+        query += " AND tipo_incidente = ?"
+        params.append(tipo_incidente)
+
+    # Filtrar por gravidade
+    gravidade_incidente = request.args.get('gravidade_incidente')
+    if gravidade_incidente:
+        query += " AND gravidade_incidente = ?"
+        params.append(gravidade_incidente)
+
+    # Pesquisar por descrição
+    pesquisa = request.args.get('pesquisa')
+    if pesquisa:
+        query += " AND descricao_incidente LIKE ?"
+        params.append(f"%{pesquisa}%")  # Adiciona os curingas % para pesquisa "contém"
+
+    incidentes = db.execute(query, params).fetchall()
+    return render_template('listar_incidentes.html', incidentes=incidentes)
+
+@app.route('/cadastro_incidente', methods=['POST'])
+def cadastro_incidente():
+    if request.method == 'POST':
+        data_incidente = request.form['data_incidente']
+        hora_incidente = request.form['hora_incidente']
+        local_incidente = request.form['local_incidente']
+        descricao_incidente = request.form['descricao_incidente']
+        tipo_incidente = request.form['tipo_incidente']
+        gravidade_incidente = request.form['gravidade_incidente']
+        colaboradores_envolvidos = request.form['colaboradores_envolvidos']
+        equipamentos_envolvidos = request.form['equipamentos_envolvidos']
+        acoes_tomadas = request.form.get('acoes_tomadas')  # Use .get() para campos não obrigatórios
+
+        db = get_db()
+        try:
+            db.execute("""
+                INSERT INTO incidentes (data_incidente, hora_incidente, local_incidente, descricao_incidente,
+                                        tipo_incidente, gravidade_incidente, colaboradores_envolvidos,
+                                        equipamentos_envolvidos, acoes_tomadas)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (data_incidente, hora_incidente, local_incidente, descricao_incidente,
+                  tipo_incidente, gravidade_incidente, colaboradores_envolvidos,
+                  equipamentos_envolvidos, acoes_tomadas))
+            db.commit()
+            app.logger.info(f"Incidente registrado: {descricao_incidente}")
+            return "Incidente registrado com sucesso! <a href='/incidentes'>Voltar para Incidentes</a>"
+        except sqlite3.Error as e:
+            return f"Erro ao registrar incidente: {e}. <a href='/incidentes'>Tentar novamente</a>"
+        
+@app.route('/cadastrar_incidente')
+def cadastrar_incidente():
+    return render_template('cadastrar_incidente.html')
+
+@app.route('/detalhes_incidente/<int:id>')
+def detalhes_incidente(id):
+    db = get_db()
+    incidente = db.execute("SELECT * FROM incidentes WHERE id = ?", (id,)).fetchone()
+    return render_template('detalhes_incidente.html', incidente=incidente)
+
+@app.route('/excluir_incidente/<int:id>')
+def excluir_incidente(id):
+    db = get_db()
+    db.execute("DELETE FROM incidentes WHERE id = ?", (id,))
+    db.commit()
+    app.logger.info(f"Incidente com ID {id} excluído")
+    return redirect(url_for('listar_incidentes'))
+
+@app.route('/editar_incidente/<int:id>', methods=['GET'])
+def editar_incidente(id):
+    db = get_db()
+    incidente = db.execute("SELECT * FROM incidentes WHERE id = ?", (id,)).fetchone()
+    if incidente:
+        return render_template('editar_incidente.html', incidente=incidente)
+    else:
+        return "Incidente não encontrado."
+    
+@app.route('/editar_incidente/<int:id>', methods=['POST'])
+def editar_incidente_post(id):
+    if request.method == 'POST':
+        data_incidente = request.form['data_incidente']
+        hora_incidente = request.form['hora_incidente']
+        local_incidente = request.form['local_incidente']
+        descricao_incidente = request.form['descricao_incidente']
+        tipo_incidente = request.form['tipo_incidente']
+        gravidade_incidente = request.form['gravidade_incidente']
+        colaboradores_envolvidos = request.form['colaboradores_envolvidos']
+        equipamentos_envolvidos = request.form['equipamentos_envolvidos']
+        acoes_tomadas = request.form.get('acoes_tomadas')
+
+        db = get_db()
+        try:
+            db.execute("""
+                UPDATE incidentes SET data_incidente = ?, hora_incidente = ?, local_incidente = ?,
+                                    descricao_incidente = ?, tipo_incidente = ?, gravidade_incidente = ?,
+                                    colaboradores_envolvidos = ?, equipamentos_envolvidos = ?, acoes_tomadas = ?
+                WHERE id = ?
+            """, (data_incidente, hora_incidente, local_incidente, descricao_incidente,
+                  tipo_incidente, gravidade_incidente, colaboradores_envolvidos,
+                  equipamentos_envolvidos, acoes_tomadas, id))
+            db.commit()
+            app.logger.info(f"Incidente com ID {id} editado")
+            return redirect(url_for('listar_incidentes'))
+        except sqlite3.Error as e:
+            return f"Erro ao editar incidente: {e}. <a href='/editar_incidente/{id}'>Tentar novamente</a>"
+        
+@app.route('/registrar_acidente', methods=['POST'])
+def registrar_acidente():
+    if request.method == 'POST':
+        data_acidente = request.form['data_acidente']
+        hora_acidente = request.form['hora_acidente']
+        local_acidente = request.form['local_acidente']
+        descricao_acidente = request.form['descricao_acidente']
+        tipo_acidente = request.form['tipo_acidente']
+        gravidade_acidente = request.form['gravidade_acidente']
+        colaboradores_envolvidos = request.form['colaboradores_envolvidos']
+        equipamentos_envolvidos = request.form['equipamentos_envolvidos']
+        acoes_tomadas = request.form.get('acoes_tomadas')
+        consequencias_acidente = request.form.get('consequencias_acidente')
+        afastamento_necessario = request.form.get('afastamento_necessario')
+
+        db = get_db()
+        try:
+            db.execute("""
+                INSERT INTO acidentes (data_acidente, hora_acidente, local_acidente, descricao_acidente,
+                                        tipo_acidente, gravidade_acidente, colaboradores_envolvidos,
+                                        equipamentos_envolvidos, acoes_tomadas, consequencias_acidente,
+                                        afastamento_necessario)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (data_acidente, hora_acidente, local_acidente, descricao_acidente,
+                  tipo_acidente, gravidade_acidente, colaboradores_envolvidos,
+                  equipamentos_envolvidos, acoes_tomadas, consequencias_acidente,
+                  afastamento_necessario))
+            db.commit()
+            app.logger.info(f"Acidente registrado: {descricao_acidente}")
+            return "Acidente registrado com sucesso! <a href='/acidentes'>Voltar para Acidentes</a>"
+        except sqlite3.Error as e:
+            return f"Erro ao registrar acidente: {e}. <a href='/acidentes'>Tentar novamente</a>"
+
+@app.route('/listar_acidentes')
+def listar_acidentes():
+    db = get_db()
+    acidentes = db.execute("SELECT * FROM acidentes").fetchall()
+    return render_template('listar_acidentes.html', acidentes=acidentes)
+
+@app.route('/cadastro_acidente', methods=['POST'])
+def cadastro_acidente():
+    if request.method == 'POST':
+        data_acidente = request.form['data_acidente']
+        hora_acidente = request.form['hora_acidente']
+        local_acidente = request.form['local_acidente']
+        descricao_acidente = request.form['descricao_acidente']
+        tipo_acidente = request.form['tipo_acidente']
+        gravidade_acidente = request.form['gravidade_acidente']
+        colaboradores_envolvidos = request.form['colaboradores_envolvidos']
+        equipamentos_envolvidos = request.form['equipamentos_envolvidos']
+        acoes_tomadas = request.form.get('acoes_tomadas')
+        consequencias_acidente = request.form.get('consequencias_acidente')
+        afastamento_necessario = request.form.get('afastamento_necessario')
+
+        db = get_db()
+        try:
+            db.execute("""
+                INSERT INTO acidentes (data_acidente, hora_acidente, local_acidente, descricao_acidente,
+                                        tipo_acidente, gravidade_acidente, colaboradores_envolvidos,
+                                        equipamentos_envolvidos, acoes_tomadas, consequencias_acidente,
+                                        afastamento_necessario)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (data_acidente, hora_acidente, local_acidente, descricao_acidente,
+                  tipo_acidente, gravidade_acidente, colaboradores_envolvidos,
+                  equipamentos_envolvidos, acoes_tomadas, consequencias_acidente,
+                  afastamento_necessario))
+            db.commit()
+            app.logger.info(f"Acidente registrado: {descricao_acidente}")
+            return "Acidente registrado com sucesso! <a href='/acidentes'>Voltar para Acidentes</a>"
+        except sqlite3.Error as e:
+            return f"Erro ao registrar acidente: {e}. <a href='/cadastrar_acidente'>Tentar novamente</a>"
+        
+@app.route('/cadastrar_acidente')
+def cadastrar_acidente():
+    return render_template('cadastrar_acidente.html')
+
+@app.route('/registrar_treinamento', methods=['POST'])
+def registrar_treinamento():
+    if request.method == 'POST':
+        titulo_treinamento = request.form['titulo_treinamento']
+        descricao_treinamento = request.form['descricao_treinamento']
+        data_treinamento = request.form['data_treinamento']
+        hora_treinamento = request.form['hora_treinamento']
+        local_treinamento = request.form['local_treinamento']
+        instrutor_treinamento = request.form['instrutor_treinamento']
+        colaboradores_participantes = request.form.get('colaboradores_participantes')
+        carga_horaria_treinamento = request.form['carga_horaria_treinamento']
+        conteudo_programatico_treinamento = request.form.get('conteudo_programatico_treinamento')
+        material_disponibilizado_treinamento = request.form.get('material_disponibilizado_treinamento')
+        observacoes_treinamento = request.form.get('observacoes_treinamento')
+
+        db = get_db()
+        try:
+            db.execute("""
+                INSERT INTO treinamentos (titulo_treinamento, descricao_treinamento, data_treinamento,
+                                          hora_treinamento, local_treinamento, instrutor_treinamento,
+                                          colaboradores_participantes, carga_horaria_treinamento,
+                                          conteudo_programatico_treinamento, material_disponibilizado_treinamento,
+                                          observacoes_treinamento)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (titulo_treinamento, descricao_treinamento, data_treinamento, hora_treinamento,
+                  local_treinamento, instrutor_treinamento, colaboradores_participantes,
+                  carga_horaria_treinamento, conteudo_programatico_treinamento,
+                  material_disponibilizado_treinamento, observacoes_treinamento))
+            db.commit()
+            app.logger.info(f"Treinamento registrado: {titulo_treinamento}")
+            return "Treinamento registrado com sucesso! <a href='/treinamentos'>Voltar para Treinamentos</a>"
+        except sqlite3.Error as e:
+            return f"Erro ao registrar treinamento: {e}. <a href='/treinamentos'>Tentar novamente</a>"
+        
+@app.route('/listar_treinamentos')
+def listar_treinamentos():
+    db = get_db()
+    treinamentos = db.execute("SELECT * FROM treinamentos").fetchall()
+    return render_template('listar_treinamentos.html', treinamentos=treinamentos)
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')

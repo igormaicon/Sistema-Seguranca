@@ -1,10 +1,55 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Incidentes</title>
-</head>
-<body>
-    <h1>Registro de Incidentes</h1>
-    <p><a href="/">Voltar para a Página Principal</a></p>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Incidentes{% endblock %}
+
+{% block content %}
+<section class="list-section">
+    <h1>Gerenciamento de Incidentes</h1>
+    <div class="epis-actions">
+        <a href="/cadastrar_incidente" class="action-button">
+            <i class="fas fa-plus-circle"></i>
+            Cadastrar Incidente
+        </a>
+        <a href="/listar_incidentes" class="action-button">
+            <i class="fas fa-list-ul"></i>
+            Listar Incidentes
+        </a>
+    </div>
+    {% if incidentes %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Hora</th>
+                    <th>Local</th>
+                    <th>Descrição</th>
+                    <th>Tipo</th>
+                    <th>Gravidade</th>
+                    <th>Colaboradores</th>
+                    <th>Equipamentos</th>
+                    <th>Ações Tomadas</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for incidente in incidentes %}
+                <tr>
+                    <td>{{ incidente['data_incidente'] }}</td>
+                    <td>{{ incidente['hora_incidente'] }}</td>
+                    <td>{{ incidente['local_incidente'] }}</td>
+                    <td>{{ incidente['descricao_incidente'] }}</td>
+                    <td>{{ incidente['tipo_incidente'] }}</td>
+                    <td>{{ incidente['gravidade_incidente'] }}</td>
+                    <td>{{ incidente['colaboradores_envolvidos'] or '-' }}</td>
+                    <td>{{ incidente['equipamentos_envolvidos'] or '-' }}</td>
+                    <td>{{ incidente['acoes_tomadas'] or '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>Não há incidentes registrados.</p>
+    {% endif %}
+</section>
+{% endblock %}

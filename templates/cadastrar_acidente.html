@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastrar Acidente{% endblock %}
+
+{% block content %}
+<section class="form-section">
+    <h1>Cadastrar Acidente</h1>
+    <form method="POST" action="/cadastro_acidente">
+        <div class="form-group">
+            <label for="data_acidente">Data do Acidente:</label>
+            <input type="date" id="data_acidente" name="data_acidente" required>
+        </div>
+        <div class="form-group">
+            <label for="hora_acidente">Hora do Acidente:</label>
+            <input type="time" id="hora_acidente" name="hora_acidente" required>
+        </div>
+        <div class="form-group">
+            <label for="local_acidente">Local do Acidente:</label>
+            <input type="text" id="local_acidente" name="local_acidente" required>
+        </div>
+        <div class="form-group">
+            <label for="descricao_acidente">Descrição do Acidente:</label>
+            <textarea id="descricao_acidente" name="descricao_acidente" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="tipo_acidente">Tipo de Acidente:</label>
+            <input type="text" id="tipo_acidente" name="tipo_acidente" required>
+        </div>
+        <div class="form-group">
+            <label for="gravidade_acidente">Gravidade do Acidente:</label>
+            <select id="gravidade_acidente" name="gravidade_acidente" required>
+                <option value="Leve">Leve</option>
+                <option value="Moderado">Moderado</option>
+                <option value="Grave">Grave</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="colaboradores_envolvidos">Colaborador(es) Envolvido(s):</label>
+            <input type="text" id="colaboradores_envolvidos" name="colaboradores_envolvidos">
+        </div>
+        <div class="form-group">
+            <label for="equipamentos_envolvidos">Equipamento(s) Envolvido(s):</label>
+            <input type="text" id="equipamentos_envolvidos" name="equipamentos_envolvidos">
+        </div>
+        <div class="form-group">
+            <label for="acoes_tomadas">Ações Tomadas:</label>
+            <textarea id="acoes_tomadas" name="acoes_tomadas" rows="4"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="consequencias_acidente">Consequências do Acidente:</label>
+            <textarea id="consequencias_acidente" name="consequencias_acidente" rows="4"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="afastamento_necessario">Afastamento Necessário:</label>
+            <input type="text" id="afastamento_necessario" name="afastamento_necessario">
+        </div>
+        <button type="submit" class="form-button">Registrar Acidente</button>
+    </form>
+    <p><a href="/acidentes">Voltar para Acidentes</a></p>
+</section>
+{% endblock %}

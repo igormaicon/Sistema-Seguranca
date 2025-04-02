@@ -58,3 +58,52 @@ CREATE TABLE entradas_epi (
     preco_total REAL NOT NULL,
     FOREIGN KEY (epi_id) REFERENCES epis(id)
 );
+
+DROP TABLE IF EXISTS incidentes;
+
+CREATE TABLE incidentes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    data_incidente TEXT NOT NULL,
+    hora_incidente TEXT NOT NULL,
+    local_incidente TEXT NOT NULL,
+    descricao_incidente TEXT NOT NULL,
+    tipo_incidente TEXT NOT NULL,
+    gravidade_incidente TEXT NOT NULL,
+    colaboradores_envolvidos TEXT,
+    equipamentos_envolvidos TEXT,
+    acoes_tomadas TEXT
+);
+
+DROP TABLE IF EXISTS acidentes;
+
+CREATE TABLE acidentes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    data_acidente TEXT NOT NULL,
+    hora_acidente TEXT NOT NULL,
+    local_acidente TEXT NOT NULL,
+    descricao_acidente TEXT NOT NULL,
+    tipo_acidente TEXT NOT NULL,
+    gravidade_acidente TEXT NOT NULL,
+    colaboradores_envolvidos TEXT,
+    equipamentos_envolvidos TEXT,
+    acoes_tomadas TEXT,
+    consequencias_acidente TEXT,
+    afastamento_necessario TEXT
+);
+
+DROP TABLE IF EXISTS treinamentos;
+
+CREATE TABLE treinamentos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    titulo_treinamento TEXT NOT NULL,
+    descricao_treinamento TEXT NOT NULL,
+    data_treinamento TEXT NOT NULL,
+    hora_treinamento TEXT NOT NULL,
+    local_treinamento TEXT NOT NULL,
+    instrutor_treinamento TEXT NOT NULL,
+    colaboradores_participantes TEXT,
+    carga_horaria_treinamento INTEGER NOT NULL,
+    conteudo_programatico_treinamento TEXT,
+    material_disponibilizado_treinamento TEXT,
+    observacoes_treinamento TEXT
+);

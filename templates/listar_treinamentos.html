@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Listar Treinamentos{% endblock %}
+
+{% block content %}
+<section class="list-section">
+    <h1>Listar Treinamentos</h1>
+    {% if treinamentos %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Descrição</th>
+                    <th>Data</th>
+                    <th>Hora</th>
+                    <th>Local</th>
+                    <th>Instrutor</th>
+                    <th>Participantes</th>
+                    <th>Carga Horária</th>
+                    <th>Conteúdo Programático</th>
+                    <th>Material</th>
+                    <th>Observações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for treinamento in treinamentos %}
+                <tr>
+                    <td>{{ treinamento['titulo_treinamento'] }}</td>
+                    <td>{{ treinamento['descricao_treinamento'] }}</td>
+                    <td>{{ treinamento['data_treinamento'] }}</td>
+                    <td>{{ treinamento['hora_treinamento'] }}</td>
+                    <td>{{ treinamento['local_treinamento'] }}</td>
+                    <td>{{ treinamento['instrutor_treinamento'] }}</td>
+                    <td>{{ treinamento['colaboradores_participantes'] or '-' }}</td>
+                    <td>{{ treinamento['carga_horaria_treinamento'] }}</td>
+                    <td>{{ treinamento['conteudo_programatico_treinamento'] or '-' }}</td>
+                    <td>{{ treinamento['material_disponibilizado_treinamento'] or '-' }}</td>
+                    <td>{{ treinamento['observacoes_treinamento'] or '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>Não há treinamentos registrados.</p>
+    {% endif %}
+    <p><a href="/treinamentos">Voltar para Treinamentos</a></p>
+</section>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Listar Incidentes{% endblock %}
+
+{% block content %}
+<section class="list-section">
+    <h1>Listar Incidentes</h1>
+
+    <section class="filter-section">
+        <h2>Filtrar e Pesquisar Incidentes</h2>
+        <form method="GET" action="/listar_incidentes">
+            <div class="form-group">
+                <label for="data_incidente">Data do Incidente:</label>
+                <input type="date" id="data_incidente" name="data_incidente" value="{{ request.args.get('data_incidente', '') }}">
+            </div>
+            <div class="form-group">
+                <label for="tipo_incidente">Tipo de Incidente:</label>
+                <input type="text" id="tipo_incidente" name="tipo_incidente" value="{{ request.args.get('tipo_incidente', '') }}">
+            </div>
+            <div class="form-group">
+                <label for="gravidade_incidente">Gravidade do Incidente:</label>
+                <select id="gravidade_incidente" name="gravidade_incidente">
+                    <option value="">Todas</option>
+                    <option value="Leve" {% if request.args.get('gravidade_incidente') == 'Leve' %}selected{% endif %}>Leve</option>
+                    <option value="Moderado" {% if request.args.get('gravidade_incidente') == 'Moderado' %}selected{% endif %}>Moderado</option>
+                    <option value="Grave" {% if request.args.get('gravidade_incidente') == 'Grave' %}selected{% endif %}>Grave</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="pesquisa">Pesquisar por Descrição:</label>
+                <input type="text" id="pesquisa" name="pesquisa" value="{{ request.args.get('pesquisa', '') }}">
+            </div>
+            <button type="submit" class="form-button">Filtrar</button>
+        </form>
+    </section>
+
+    {% if incidentes %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Hora</th>
+                    <th>Local</th>
+                    <th>Descrição</th>
+                    <th>Tipo</th>
+                    <th>Gravidade</th>
+                    <th>Colaboradores</th>
+                    <th>Equipamentos</th>
+                    <th>Ações Tomadas</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for incidente in incidentes %}
+                <tr>
+                    <td>{{ incidente['data_incidente'] }}</td>
+                    <td>{{ incidente['hora_incidente'] }}</td>
+                    <td>{{ incidente['local_incidente'] }}</td>
+                    <td>{{ incidente['descricao_incidente'] }}</td>
+                    <td>{{ incidente['tipo_incidente'] }}</td>
+                    <td>{{ incidente['gravidade_incidente'] }}</td>
+                    <td>{{ incidente['colaboradores_envolvidos'] or '-' }}</td>
+                    <td>{{ incidente['equipamentos_envolvidos'] or '-' }}</td>
+                    <td>{{ incidente['acoes_tomadas'] or '-' }}</td>
+                    <td class="action-buttons">
+                        <a href="/detalhes_incidente/{{ incidente['id'] }}" class="action-button detail-button">
+                            <i class="fas fa-info-circle"></i> Detalhes
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>Não há incidentes registrados.</p>
+    {% endif %}
+</section>
+{% endblock %}

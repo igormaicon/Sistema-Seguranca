@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalhes do Incidente{% endblock %}
+
+{% block content %}
+<section class="detail-section">
+    <h1>Detalhes do Incidente</h1>
+    {% if incidente %}
+    <div class="detail-item">
+        <span class="detail-label">Data do Incidente:</span>
+        <span class="detail-value">{{ incidente['data_incidente'] }}</span>
+    </div>
+    <div class="detail-item">
+        <span class="detail-label">Hora do Incidente:</span>
+        <span class="detail-value">{{ incidente['hora_incidente'] }}</span>
+    </div>
+    <div class="detail-item">
+        <span class="detail-label">Local do Incidente:</span>
+        <span class="detail-value">{{ incidente['local_incidente'] }}</span>
+    </div>
+    <div class="detail-item">
+        <span class="detail-label">Descrição do Incidente:</span>
+        <span class="detail-value">{{ incidente['descricao_incidente'] }}</span>
+    </div>
+    <div class="detail-item">
+        <span class="detail-label">Tipo de Incidente:</span>
+        <span class="detail-value">{{ incidente['tipo_incidente'] }}</span>
+    </div>
+    <div class="detail-item">
+        <span class="detail-label">Gravidade do Incidente:</span>
+        <span class="detail-value">{{ incidente['gravidade_incidente'] }}</span>
+    </div>
+    <div class="detail-item">
+        <span class="detail-label">Colaborador(es) Envolvido(s):</span>
+        <span class="detail-value">{{ incidente['colaboradores_envolvidos'] or '-' }}</span>
+    </div>
+    <div class="detail-item">
+        <span class="detail-label">Equipamento(s) Envolvido(s):</span>
+        <span class="detail-value">{{ incidente['equipamentos_envolvidos'] or '-' }}</span>
+    </div>
+    <div class="detail-item">
+        <span class="detail-label">Ações Tomadas:</span>
+        <span class="detail-value">{{ incidente['acoes_tomadas'] or '-' }}</span>
+    </div>
+    <div class="action-buttons">
+        <a href="/editar_incidente/{{ incidente['id'] }}" class="action-button edit-button">
+            <i class="fas fa-edit"></i> Editar
+        </a>
+        <a href="/excluir_incidente/{{ incidente['id'] }}" class="action-button delete-button">
+            <i class="fas fa-trash-alt"></i> Excluir
+        </a>
+    </div>
+    {% else %}
+    <p>Incidente não encontrado.</p>
+    {% endif %}
+    <p><a href="/listar_incidentes">Voltar para a Listagem de Incidentes</a></p>
+</section>
+{% endblock %}

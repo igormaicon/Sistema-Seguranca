@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Incidente{% endblock %}
+
+{% block content %}
+<section class="form-section">
+    <h1>Editar Incidente</h1>
+    {% if incidente %}
+    <form method="POST" action="/editar_incidente/{{ incidente['id'] }}">
+        <div class="form-group">
+            <label for="data_incidente">Data do Incidente:</label>
+            <input type="date" id="data_incidente" name="data_incidente" value="{{ incidente['data_incidente'] }}"
+                required>
+        </div>
+        <div class="form-group">
+            <label for="hora_incidente">Hora do Incidente:</label>
+            <input type="time" id="hora_incidente" name="hora_incidente" value="{{ incidente['hora_incidente'] }}"
+                required>
+        </div>
+        <div class="form-group">
+            <label for="local_incidente">Local do Incidente:</label>
+            <input type="text" id="local_incidente" name="local_incidente" value="{{ incidente['local_incidente'] }}"
+                required>
+        </div>
+        <div class="form-group">
+            <label for="descricao_incidente">Descrição do Incidente:</label>
+            <textarea id="descricao_incidente" name="descricao_incidente" rows="4"
+                required>{{ incidente['descricao_incidente'] }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="tipo_incidente">Tipo de Incidente:</label>
+            <input type="text" id="tipo_incidente" name="tipo_incidente" value="{{ incidente['tipo_incidente'] }}"
+                required>
+        </div>
+        <div class="form-group">
+            <label for="gravidade_incidente">Gravidade do Incidente:</label>
+            <select id="gravidade_incidente" name="gravidade_incidente" required>
+                <option value="Leve" {% if incidente['gravidade_incidente'] == 'Leve' %} selected {% endif %}>
+                    Leve
+                </option>
+                <option value="Moderado" {% if incidente['gravidade_incidente'] == 'Moderado' %} selected {% endif %}>
+                    Moderado
+                </option>
+                <option value="Grave" {% if incidente['gravidade_incidente'] == 'Grave' %} selected {% endif %}>
+                    Grave
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="colaboradores_envolvidos">Colaborador(es) Envolvido(s):</label>
+            <input type="text" id="colaboradores_envolvidos" name="colaboradores_envolvidos"
+                value="{{ incidente['colaboradores_envolvidos'] }}">
+        </div>
+        <div class="form-group">
+            <label for="equipamentos_envolvidos">Equipamento(s) Envolvido(s):</label>
+            <input type="text" id="equipamentos_envolvidos" name="equipamentos_envolvidos"
+                value="{{ incidente['equipamentos_envolvidos'] }}">
+        </div>
+        <div class="form-group">
+            <label for="acoes_tomadas">Ações Tomadas:</label>
+            <textarea id="acoes_tomadas" name="acoes_tomadas" rows="4">{{ incidente['acoes_tomadas'] }}</textarea>
+        </div>
+        <button type="submit" class="form-button">Salvar Alterações</button>
+    </form>
+    {% else %}
+    <p>Incidente não encontrado.</p>
+    {% endif %}
+    <p><a href="/listar_incidentes">Voltar para a Listagem de Incidentes</a></p>
+</section>
+{% endblock %}

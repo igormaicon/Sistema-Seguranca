@@ -1,20 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}Acidentes{% endblock %}
+{% block title %}Listar Acidentes{% endblock %}
 
 {% block content %}
 <section class="list-section">
-    <h1>Gerenciamento de Acidentes</h1>
-    <div class="epis-actions">
-        <a href="/cadastrar_acidente" class="action-button">
-            <i class="fas fa-plus-circle"></i>
-            Cadastrar Acidente
-        </a>
-        <a href="/listar_acidentes" class="action-button">
-            <i class="fas fa-list-ul"></i>
-            Listar Acidentes
-        </a>
-    </div>
+    <h1>Listar Acidentes</h1>
     {% if acidentes %}
     <div class="table-container">
         <table>
@@ -55,5 +45,6 @@
     {% else %}
     <p>Não há acidentes registrados.</p>
     {% endif %}
+    <p><a href="/acidentes">Voltar para Acidentes</a></p>
 </section>
 {% endblock %}
