@@ -43,6 +43,9 @@ Listar EPIs
                         Estoque Mínimo
                     </th>
                     <th>
+                        Status da Validade
+                    </th>
+                    <th>
                         Ações
                     </th>
                 </tr>
@@ -63,11 +66,7 @@ Listar EPIs
                         {{ epi['fabricante'] or '-' }}
                     </td>
                     <td>
-                        {% if epi['data_validade'] %}
-                            {{ epi['data_validade'].split('-')[2] }}/{{ epi['data_validade'].split('-')[1] }}/{{ epi['data_validade'].split('-')[0] }}
-                        {% else %}
-                            -
-                        {% endif %}
+                        {{ epi['data_validade'] or '-' }}
                     </td>
                     <td>
                         {{ epi['controlar_periodicidade'] }}
@@ -81,14 +80,17 @@ Listar EPIs
                     <td>
                         {{ epi['estoque_minimo'] }}
                     </td>
+                    <td class="status-validade {{ epi['status_validade']|lower }}">
+                        {{ epi['status_validade'] }}
+                    </td>
                     <td class="action-buttons">
                         <a href="/editar_epi/{{ epi['id'] }}" class="action-button edit-button">
-                            <i class="fas fa-edit">
-                            </i>
+                            <i class="fas fa-edit"></i>
                         </a>
                         <a href="/excluir_epi/{{ epi['id'] }}" class="action-button delete-button">
-                            <i class="fas fa-trash-alt">
-                            </i>
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                        <a href="/historico_epi/{{ epi['id'] }}" class="action-button history-button">  <i class="fas fa-history"></i>
                         </a>
                     </td>
                 </tr>
@@ -107,5 +109,31 @@ Listar EPIs
             Voltar para Gerenciamento de EPIs
         </a>
     </p>
+
+    <style>
+        .status-validade {
+            text-align: center;
+        }
+
+        .status-validade.vencido {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-validade.próximo-do-vencimento {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-validade.ok {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-validade.sem-data {
+            background-color: #f0f0f0;
+            color: #6c757d;
+        }
+    </style>
 </section>
 {% endblock %}

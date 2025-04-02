@@ -1,27 +1,61 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Sistema de Segurança do Trabalho{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+        integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
+
 <body>
     <header>
         <h1>Sistema de Segurança do Trabalho</h1>
         <nav>
             <ul>
-                <li><a href="/">Página Principal</a></li>
-                <li><a href="/colaboradores">Colaboradores</a></li>
-                <li><a href="/incidentes">Incidentes</a></li>
-                <li><a href="/acidentes">Acidentes</a></li>
-                <li><a href="/treinamentos">Treinamentos</a></li>
-                <li><a href="/epis">EPIs</a></li>
+                <li>
+                    <a href="/" class="nav-item {% if request.path == '/' %}active{% endif %}">
+                        <i class="fas fa-home"></i>
+                        Página Principal
+                    </a>
+                </li>
+                <li>
+                    <a href="/colaboradores"
+                        class="nav-item {% if request.path == '/colaboradores' or request.path == '/cadastrar_colaborador' or request.path == '/listar_colaboradores' or request.path == '/editar_colaborador' %}active{% endif %}">
+                        <i class="fas fa-users"></i>
+                        Colaboradores
+                    </a>
+                </li>
+                <li>
+                    <a href="/epis"
+                        class="nav-item {% if request.path == '/epis' or request.path == '/cadastrar_epi' or request.path == '/listar_epis' or request.path == '/editar_epi' or request.path == '/entregar_epi' or request.path == '/listar_entregas_epi' or request.path == '/entrada_epi' %}active{% endif %}">
+                        <i class="fas fa-hard-hat"></i>
+                        EPIs
+                    </a>
+                </li>
+                <li>
+                    <a href="/incidentes" class="nav-item {% if request.path == '/incidentes' %}active{% endif %}">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Incidentes
+                    </a>
+                </li>
+                <li>
+                    <a href="/acidentes" class="nav-item {% if request.path == '/acidentes' %}active{% endif %}">
+                        <i class="fas fa-ambulance"></i>
+                        Acidentes
+                    </a>
+                </li>
+                <li>
+                    <a href="/treinamentos" class="nav-item {% if request.path == '/treinamentos' %}active{% endif %}">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        Treinamentos
+                    </a>
+                </li>
             </ul>
         </nav>
     </header>
@@ -32,7 +66,8 @@
 
     <footer>
         <hr>
-        <p>&copy; 2025 Sistema de Segurança do Trabalho - Igor Muniz - Todos direitos reservados</p>
+        <p>&copy; 2025 Sistema de Segurança do Trabalho - Igor Muniz - Todos os direitos reservados</p>
     </footer>
 </body>
+
 </html>

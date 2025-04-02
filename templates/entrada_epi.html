@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Entrada de EPIs
+{% endblock %}
+
+{% block content %}
+<section class="form-section">
+    <h1>
+        Registrar Entrada de EPI
+    </h1>
+    <form method="POST" action="/registrar_entrada_epi">
+        <div class="form-group">
+            <label for="epi_id">
+                EPI:
+            </label>
+            <select id="epi_id" name="epi_id" required>
+                <option value="">
+                    Selecione um EPI
+                </option>
+                {% for epi in epis %}
+                <option value="{{ epi['id'] }}">
+                    {{ epi['nome'] }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="data_entrada">
+                Data de Entrada:
+            </label>
+            <input type="date" id="data_entrada" name="data_entrada" required>
+        </div>
+        <div class="form-group">
+            <label for="nota_fiscal">
+                Nota Fiscal:
+            </label>
+            <input type="text" id="nota_fiscal" name="nota_fiscal">
+        </div>
+        <div class="form-group">
+            <label for="fornecedor">  Fornecedor:
+            </label>
+            <input type="text" id="fornecedor" name="fornecedor">
+        </div>
+        <div class="form-group">
+            <label for="quantidade">
+                Quantidade:
+            </label>
+            <input type="number" id="quantidade" name="quantidade" value="1" required>
+        </div>
+        <div class="form-group">
+            <label for="preco_unitario">
+                Preço por Unidade:
+            </label>
+            <input type="number" id="preco_unitario" name="preco_unitario" value="0.00" step="0.01" required>
+        </div>
+        <div class="form-group">
+            <label for="preco_total">
+                Preço Total:
+            </label>
+            <input type="number" id="preco_total" name="preco_total" value="0.00" step="0.01" required>
+        </div>
+        <button type="submit" class="form-button">
+            Registrar Entrada
+        </button>
+    </form>
+
+    <p>
+        <a href="/epis">
+            Voltar para Gerenciamento de EPIs
+        </a>
+    </p>
+
+    <script>
+        function calcularTotal() {
+            var quantidade = document.getElementById('quantidade').value;
+            var preco_unitario = document.getElementById('preco_unitario').value;
+            var preco_total = document.getElementById('preco_total');
+    
+            // Verificar se os valores são números válidos
+            if (!isNaN(quantidade) && !isNaN(preco_unitario)) {
+                preco_total.value = (quantidade * preco_unitario).toFixed(2);
+            } else {
+                preco_total.value = '0.00';
+            }
+        }
+    
+        // Adicionar os eventos onchange aos campos quantidade e preco_unitario
+        document.getElementById('quantidade').addEventListener('change', calcularTotal);
+        document.getElementById('preco_unitario').addEventListener('change', calcularTotal);
+    </script>
+
+</section>
+{% endblock %}

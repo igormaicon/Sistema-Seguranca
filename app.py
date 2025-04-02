@@ -13,6 +13,11 @@ logging.basicConfig(level=logging.INFO)
 def get_current_year():
     return datetime.now().year
 
+def formatar_data(data):
+    if data:
+        data_obj = datetime.strptime(data, '%Y-%m-%d').date()
+        return data_obj.strftime('%d/%m/%Y')
+    return None
 
 app.jinja_env.globals['year'] = get_current_year
 
@@ -96,7 +101,16 @@ def listar_colaboradores():
         params.append(status_filtro)
 
     colaboradores = db.execute(query, params).fetchall()
-    return render_template('listar_colaboradores.html', colaboradores=colaboradores)
+
+    colaboradores_formatados = []
+    for colaborador in colaboradores:
+        colaborador_dict = dict(colaborador)
+        colaborador_dict['data_admissao'] = formatar_data(colaborador_dict['data_admissao'])
+        if colaborador_dict['data_desligamento']:
+            colaborador_dict['data_desligamento'] = formatar_data(colaborador_dict['data_desligamento'])
+        colaboradores_formatados.append(colaborador_dict)
+
+    return render_template('listar_colaboradores.html', colaboradores=colaboradores_formatados)
 
 
 @app.route('/editar_colaborador/<int:id>')
@@ -104,7 +118,11 @@ def editar_colaborador(id):
     db = get_db()
     colaborador = db.execute("SELECT * FROM colaboradores WHERE id = ?", (id,)).fetchone()
     if colaborador:
-        return render_template('editar_colaborador.html', colaborador=colaborador)
+        colaborador_dict = dict(colaborador)
+        colaborador_dict['data_admissao'] = formatar_data(colaborador_dict['data_admissao'])
+        if colaborador_dict['data_desligamento']:
+            colaborador_dict['data_desligamento'] = formatar_data(colaborador_dict['data_desligamento'])
+        return render_template('editar_colaborador.html', colaborador=colaborador_dict)
     else:
         return "Colaborador não encontrado."
 
@@ -189,7 +207,29 @@ def cadastro_epi():
 def listar_epis():
     db = get_db()
     epis = db.execute("SELECT * FROM epis").fetchall()
-    return render_template('listar_epis.html', epis=epis)
+    hoje = datetime.now().date()  # Obtém a data atual
+
+    epis_com_status = []  # Lista para armazenar os EPIs com o status de validade
+
+    for epi in epis:
+        epi_dict = dict(epi)  # Converte o sqlite3.Row para um dicionário
+        if epi_dict['data_validade']:
+            data_validade = datetime.strptime(epi_dict['data_validade'], '%Y-%m-%d').date()
+            dias_para_vencer = (data_validade - hoje).days
+
+            if dias_para_vencer <= 0:
+                epi_dict['status_validade'] = 'Vencido'
+            elif dias_para_vencer <= 30:
+                epi_dict['status_validade'] = 'Próximo do Vencimento'
+            else:
+                epi_dict['status_validade'] = 'OK'
+            epi_dict['data_validade'] = formatar_data(epi_dict['data_validade'])
+        else:
+            epi_dict['status_validade'] = 'Sem Data'  # Ou outro valor padrão, se preferir
+
+        epis_com_status.append(epi_dict)  # Adiciona o dicionário à lista
+
+    return render_template('listar_epis.html', epis=epis_com_status)
 
 
 @app.route('/editar_epi/<int:id>')
@@ -198,7 +238,9 @@ def editar_epi(id):
     epi = db.execute("SELECT * FROM epis WHERE id = ?", (id,)).fetchone()
     colaboradores = db.execute("SELECT * FROM colaboradores").fetchall()
     if epi:
-        return render_template('editar_epi.html', epi=epi, colaboradores=colaboradores)
+        epi_dict = dict(epi)
+        epi_dict['data_validade'] = formatar_data(epi_dict['data_validade'])
+        return render_template('editar_epi.html', epi=epi_dict, colaboradores=colaboradores)
     else:
         return "EPI não encontrado."
 
@@ -240,15 +282,12 @@ def excluir_epi(id):
     return redirect(url_for('listar_epis'))
 
 
-@app.route('/entregar_epi/<int:id>')
-def entregar_epi(id):
+@app.route('/entregar_epi')  # Remova o parâmetro <int:id>
+def entregar_epi():
     db = get_db()
-    epis = db.execute("SELECT * FROM epis WHERE id = ?", (id,)).fetchone()
+    epis = db.execute("SELECT * FROM epis").fetchall()  # Busca todos os EPIs
     colaboradores = db.execute("SELECT * FROM colaboradores").fetchall()
-    if epis:
-        return render_template('entregar_epi.html', epis=epis, colaboradores=colaboradores)
-    else:
-        return "EPI não encontrado."
+    return render_template('entregar_epi.html', epis=epis, colaboradores=colaboradores)
 
 
 @app.route('/entrega_epi', methods=['POST'])
@@ -260,10 +299,11 @@ def entrega_epi():
 
     db = get_db()
     try:
-        db.execute("""
-            INSERT INTO entregas_epi (epi_id, colaborador_id, data_entrega, quantidade_entregue)
-            VALUES (?, ?, ?, ?)
-        """, (epi_id, ','.join(colaborador_id), data_entrega, quantidade_entregue))
+        for colab_id in colaborador_id:
+            db.execute("""
+                INSERT INTO entregas_epi (epi_id, colaborador_id, data_entrega, quantidade_entregue, tipo_movimentacao)
+                VALUES (?, ?, ?, ?, ?)
+            """, (epi_id, colab_id, data_entrega, quantidade_entregue, 'Saída'))  # Tipo 'Saída'
 
         db.execute("""
             UPDATE epis SET quantidade_estoque = quantidade_estoque - ?
@@ -271,11 +311,10 @@ def entrega_epi():
         """, (quantidade_entregue, epi_id))
 
         db.commit()
-        app.logger.info(f"EPI com ID {epi_id} entregue ao colaborador com ID {colaborador_id}")
-        return redirect(url_for('listar_epis'))
+        app.logger.info(f"EPI com ID {epi_id} entregue aos colaboradores com IDs {colaborador_id}")
+        return redirect(url_for('epis'))
     except sqlite3.IntegrityError as e:
-        return f"Erro ao registrar entrega: {e}. Já existe um EPI com este nome. <a href='/entregar_epi/{epi_id}'>Tentar novamente</a>"
-
+        return f"Erro ao registrar entrega: {e}. Já existe um EPI com este nome. <a href='/entregar_epi'>Tentar novamente</a>"
 
 @app.route('/listar_entregas_epi')
 def listar_entregas_epi():
@@ -313,8 +352,14 @@ def listar_entregas_epi():
     entregas = db.execute(query, params).fetchall()
     epis = db.execute("SELECT * FROM epis").fetchall()
     colaboradores = db.execute("SELECT * FROM colaboradores").fetchall()
-    return render_template('listar_entregas_epi.html', entregas=entregas, epis=epis, colaboradores=colaboradores)
 
+    entregas_formatadas = []
+    for entrega in entregas:
+        entrega_dict = dict(entrega)
+        entrega_dict['data_entrega'] = formatar_data(entrega_dict['data_entrega'])
+        entregas_formatadas.append(entrega_dict)
+
+    return render_template('listar_entregas_epi.html', entregas=entregas_formatadas, epis=epis, colaboradores=colaboradores)
 
 @app.route('/incidentes')
 def incidentes():
@@ -360,6 +405,120 @@ def editar_entrega_epi_post(id):
     db.commit()
     app.logger.info(f"Entrega de EPI com ID {id} editada")
     return redirect(url_for('listar_entregas_epi'))
+
+@app.route('/historico_entregas_colaborador/<int:colaborador_id>')
+def historico_entregas_colaborador(colaborador_id):
+    db = get_db()
+    entregas = db.execute("""
+        SELECT e.nome as epi_nome, en.data_entrega, en.quantidade_entregue
+        FROM entregas_epi en
+        JOIN epis e ON en.epi_id = e.id
+        WHERE en.colaborador_id = ?
+    """, (colaborador_id,)).fetchall()
+    colaborador = db.execute("SELECT * FROM colaboradores WHERE id = ?", (colaborador_id,)).fetchone()
+    return render_template('historico_entregas_colaborador.html', entregas=entregas, colaborador=colaborador)
+
+@app.route('/entrada_epi')
+def entrada_epi():
+    db = get_db()
+    epis = db.execute("SELECT * FROM epis").fetchall()
+    return render_template('entrada_epi.html', epis=epis)
+
+@app.route('/registrar_entrada_epi', methods=['POST'])
+def registrar_entrada_epi():
+    if request.method == 'POST':
+        epi_id = request.form['epi_id']
+        data_entrada = request.form['data_entrada']
+        nota_fiscal = request.form['nota_fiscal']
+        fornecedor = request.form['fornecedor']  # Novo campo
+        quantidade = request.form['quantidade']
+        preco_unitario = request.form['preco_unitario']
+        preco_total = request.form['preco_total']
+
+        db = get_db()
+        try:
+            db.execute("""
+                INSERT INTO entregas_epi (epi_id, colaborador_id, data_entrega, quantidade_entregue, tipo_movimentacao, nota_fiscal, preco_unitario, preco_total, fornecedor)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (epi_id, None, data_entrada, quantidade, 'Entrada', nota_fiscal, preco_unitario, preco_total, fornecedor))  # Inclui fornecedor, colaborador_id é None
+
+            # Atualizar a quantidade em estoque do EPI
+            db.execute("""
+                UPDATE epis SET quantidade_estoque = quantidade_estoque + ?
+                WHERE id = ?
+            """, (quantidade, epi_id))
+
+            db.commit()
+            app.logger.info(f"Entrada de EPI com ID {epi_id} registrada")
+            return redirect(url_for('listar_epis'))
+        except sqlite3.Error as e:
+            return f"Erro ao registrar entrada: {e}. <a href='/entrada_epi'>Tentar novamente</a>"
+    
+@app.route('/historico_epi/<int:epi_id>')
+def historico_epi(epi_id):
+    db = get_db()
+    epi = db.execute("SELECT * FROM epis WHERE id = ?", (epi_id,)).fetchone()
+
+    # Filtros
+    colaborador_id = request.args.get('colaborador_id')
+    tipo_movimentacao = request.args.get('tipo_movimentacao')
+    data_inicio = request.args.get('data_inicio')
+    data_fim = request.args.get('data_fim')
+
+    query = """
+        SELECT c.nome_completo, en.data_entrega, en.quantidade_entregue, en.tipo_movimentacao,
+               en.nota_fiscal, en.preco_unitario, en.preco_total, en.fornecedor, c.setor
+        FROM entregas_epi en
+        LEFT JOIN colaboradores c ON en.colaborador_id = c.id
+        WHERE en.epi_id = ?
+    """
+    params = [epi_id]
+
+    if colaborador_id:
+        query += " AND en.colaborador_id = ?"
+        params.append(colaborador_id)
+
+    if tipo_movimentacao:
+        query += " AND en.tipo_movimentacao = ?"
+        params.append(tipo_movimentacao)
+
+    if data_inicio:
+        query += " AND en.data_entrega >= ?"
+        params.append(data_inicio)
+
+    if data_fim:
+        query += " AND en.data_entrega <= ?"
+        params.append(data_fim)
+
+    historico = db.execute(query, params).fetchall()
+    colaboradores = db.execute("SELECT * FROM colaboradores").fetchall()  # Para o filtro de colaborador
+
+    historico_formatado = []
+    existem_entradas = False
+    existem_saidas = False
+
+    for item in historico:
+        item_dict = dict(item)
+        item_dict['data_entrega'] = formatar_data(item_dict['data_entrega'])
+        if item_dict['tipo_movimentacao'] == 'Entrada':
+            existem_entradas = True
+        elif item_dict['tipo_movimentacao'] == 'Saída':
+            existem_saidas = True
+        historico_formatado.append(item_dict)
+
+    return render_template('historico_epi.html', epi=epi, historico=historico_formatado, colaboradores=colaboradores, existem_entradas=existem_entradas, existem_saidas=existem_saidas)
+
+@app.route('/listar_entradas_epi')
+def listar_entradas_epi():
+    db = get_db()
+    entradas = db.execute("""
+        SELECT e.nome as epi_nome, en.data_entrega, en.quantidade_entregue, en.nota_fiscal,
+               en.preco_unitario, en.preco_total, en.fornecedor
+        FROM entregas_epi en
+        JOIN epis e ON en.epi_id = e.id
+        WHERE en.tipo_movimentacao = 'Entrada'
+    """).fetchall()
+    return render_template('listar_entradas_epi.html', entradas=entradas)
 
 if __name__ == '__main__':
     app.run(debug=True)

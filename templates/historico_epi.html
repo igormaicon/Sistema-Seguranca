@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Histórico de EPI
+{% endblock %}
+
+{% block content %}
+<section class="list-section">
+    <h1>
+        Histórico de EPI: {{ epi['nome'] }}
+    </h1>
+
+    <section class="filter-section">
+        <h2>Filtrar Histórico</h2>
+        <form method="GET" action="/historico_epi/{{ epi['id'] }}">
+            <div class="form-group">
+                <label for="colaborador_id">Colaborador:</label>
+                <select id="colaborador_id" name="colaborador_id">
+                    <option value="">Todos</option>
+                    {% for colaborador in colaboradores %}
+                        <option value="{{ colaborador['id'] }}">{{ colaborador['nome_completo'] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tipo_movimentacao">Tipo de Movimentação:</label>
+                <select id="tipo_movimentacao" name="tipo_movimentacao">
+                    <option value="">Todos</option>
+                    <option value="Entrada">Entrada</option>
+                    <option value="Saída">Saída</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="data_inicio">Data Início:</label>
+                <input type="date" id="data_inicio" name="data_inicio">
+            </div>
+            <div class="form-group">
+                <label for="data_fim">Data Fim:</label>
+                <input type="date" id="data_fim" name="data_fim">
+            </div>
+            <button type="submit" class="form-button">Filtrar</button>
+        </form>
+    </section>
+
+    {% if historico %}
+        {% if existem_saidas %}
+            <h2>Saídas</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Colaborador</th>
+                            <th>Setor</th>
+                            <th>Data</th>
+                            <th>Quantidade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in historico %}
+                            {% if item['tipo_movimentacao'] == 'Saída' %}
+                                <tr>
+                                    <td>{{ item['nome_completo'] }}</td>
+                                    <td>{{ item['setor'] }}</td>
+                                    <td>{{ item['data_entrega'] }}</td>
+                                    <td>{{ item['quantidade_entregue'] }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
+        {% if existem_entradas %}
+            <h2>Entradas</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fornecedor</th>
+                            <th>NF</th>
+                            <th>Data</th>
+                            <th>Quantidade</th>
+                            <th>Valor Unitário</th>
+                            <th>Valor Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in historico %}
+                            {% if item['tipo_movimentacao'] == 'Entrada' %}
+                                <tr>
+                                    <td>{{ item['fornecedor'] or '-' }}</td>
+                                    <td>{{ item['nota_fiscal'] or '-' }}</td>
+                                    <td>{{ item['data_entrega'] }}</td>
+                                    <td>{{ item['quantidade_entregue'] }}</td>
+                                    <td>{{ item['preco_unitario'] or '-' }}</td>
+                                    <td>{{ item['preco_total'] or '-' }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    {% else %}
+        <p>Não há histórico para este EPI.</p>
+    {% endif %}
+
+    <p><a href="/epis">Voltar para EPIs</a></p>
+</section>
+{% endblock %}

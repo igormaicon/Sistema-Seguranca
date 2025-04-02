@@ -92,12 +92,12 @@ Listar Colaboradores
                     </td>
                     <td class="action-buttons">
                         <a href="/editar_colaborador/{{ colaborador['id'] }}" class="action-button edit-button">
-                            <i class="fas fa-edit">
-                            </i>
+                            <i class="fas fa-edit"></i>
                         </a>
                         <a href="/excluir_colaborador/{{ colaborador['id'] }}" class="action-button delete-button">
-                            <i class="fas fa-trash-alt">
-                            </i>
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                        <a href="/historico_entregas_colaborador/{{ colaborador['id'] }}" class="action-button history-button">  <i class="fas fa-history"></i>
                         </a>
                     </td>
                 </tr>

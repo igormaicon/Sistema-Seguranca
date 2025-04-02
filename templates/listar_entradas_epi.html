@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Listar Entradas de EPIs
+{% endblock %}
+
+{% block content %}
+<section class="list-section">
+    <h1>
+        Listar Entradas de EPIs
+    </h1>
+
+    {% if entradas %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>EPI</th>
+                    <th>Data de Entrada</th>
+                    <th>Quantidade</th>
+                    <th>Nota Fiscal</th>
+                    <th>Fornecedor</th>
+                    <th>Preço Unitário</th>
+                    <th>Preço Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entrada in entradas %}
+                <tr>
+                    <td>{{ entrada['epi_nome'] }}</td>
+                    <td>{{ entrada['data_entrega'] }}</td>
+                    <td>{{ entrada['quantidade_entregue'] }}</td>
+                    <td>{{ entrada['nota_fiscal'] or '-' }}</td>
+                    <td>{{ entrada['fornecedor'] or '-' }}</td>
+                    <td>{{ entrada['preco_unitario'] or '-' }}</td>
+                    <td>{{ entrada['preco_total'] or '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>
+        Não há entradas de EPIs para exibir.
+    </p>
+    {% endif %}
+
+    <p>
+        <a href="/epis">
+            Voltar para Gerenciamento de EPIs
+        </a>
+    </p>
+</section>
+{% endblock %}

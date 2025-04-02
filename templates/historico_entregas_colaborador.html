@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Histórico de Entregas de EPIs
+{% endblock %}
+
+{% block content %}
+<section class="list-section">
+    <h1>
+        Histórico de Entregas de EPIs para {{ colaborador['nome_completo'] }}
+    </h1>
+
+    {% if entregas %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        EPI
+                    </th>
+                    <th>
+                        Data de Entrega
+                    </th>
+                    <th>
+                        Quantidade Entregue
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entrega in entregas %}
+                <tr>
+                    <td>
+                        {{ entrega['epi_nome'] }}
+                    </td>
+                    <td>
+                        {{ entrega['data_entrega'] }}
+                    </td>
+                    <td>
+                        {{ entrega['quantidade_entregue'] }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>
+        Não há entregas de EPIs para exibir para este colaborador.
+    </p>
+    {% endif %}
+
+    <p>
+        <a href="/colaboradores">
+            Voltar para Gerenciamento de Colaboradores
+        </a>
+    </p>
+</section>
+{% endblock %}
