@@ -5,6 +5,22 @@
 {% block content %}
 <section class="list-section">
     <h1>Listar Treinamentos</h1>
+
+    <section class="filter-section">
+        <h2>Filtrar Treinamentos</h2>
+        <form method="GET" action="/listar_treinamentos">
+            <div class="form-group">
+                <label for="status">Filtrar por Status:</label>
+                <select id="status" name="status" onchange="this.form.submit()">
+                    <option value="">Todos</option>
+                    <option value="Agendado" {% if request.args.get('status') == 'Agendado' %}selected{% endif %}>Agendado</option>
+                    <option value="Concluido" {% if request.args.get('status') == 'Concluido' %}selected{% endif %}>Concluído</option>
+                    <option value="Cancelado" {% if request.args.get('status') == 'Cancelado' %}selected{% endif %}>Cancelado</option>
+                </select>
+            </div>
+        </form>
+    </section>
+
     {% if treinamentos %}
     <div class="table-container">
         <table>
@@ -12,31 +28,36 @@
                 <tr>
                     <th>Título</th>
                     <th>Descrição</th>
+                    <th>Tipo</th>
                     <th>Data</th>
                     <th>Hora</th>
                     <th>Local</th>
                     <th>Instrutor</th>
                     <th>Participantes</th>
                     <th>Carga Horária</th>
-                    <th>Conteúdo Programático</th>
-                    <th>Material</th>
-                    <th>Observações</th>
-                </tr>
+                    <th>Status</th>
+                    <th>Ações</th>  </tr>
             </thead>
             <tbody>
                 {% for treinamento in treinamentos %}
                 <tr>
                     <td>{{ treinamento['titulo_treinamento'] }}</td>
                     <td>{{ treinamento['descricao_treinamento'] }}</td>
+                    <td>{{ treinamento['tipo_treinamento'] }}</td>
                     <td>{{ treinamento['data_treinamento'] }}</td>
                     <td>{{ treinamento['hora_treinamento'] }}</td>
                     <td>{{ treinamento['local_treinamento'] }}</td>
                     <td>{{ treinamento['instrutor_treinamento'] }}</td>
                     <td>{{ treinamento['colaboradores_participantes'] or '-' }}</td>
-                    <td>{{ treinamento['carga_horaria_treinamento'] }}</td>
-                    <td>{{ treinamento['conteudo_programatico_treinamento'] or '-' }}</td>
-                    <td>{{ treinamento['material_disponibilizado_treinamento'] or '-' }}</td>
-                    <td>{{ treinamento['observacoes_treinamento'] or '-' }}</td>
+                    <td>{{ treinamento['carga_horaria_treinamento'] }} {{ treinamento['unidade_carga_horaria'] }}</td>
+                    <td>{{ treinamento['status'] }}</td>
+                    <td class="action-buttons">  <a href="/editar_treinamento/{{ treinamento['id'] }}" class="action-button edit-button">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="/excluir_treinamento/{{ treinamento['id'] }}" class="action-button delete-button">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -45,6 +66,5 @@
     {% else %}
     <p>Não há treinamentos registrados.</p>
     {% endif %}
-    <p><a href="/treinamentos">Voltar para Treinamentos</a></p>
 </section>
 {% endblock %}

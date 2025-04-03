@@ -748,40 +748,112 @@ def registrar_treinamento():
     if request.method == 'POST':
         titulo_treinamento = request.form['titulo_treinamento']
         descricao_treinamento = request.form['descricao_treinamento']
+        tipo_treinamento = request.form['tipo_treinamento']
         data_treinamento = request.form['data_treinamento']
         hora_treinamento = request.form['hora_treinamento']
         local_treinamento = request.form['local_treinamento']
         instrutor_treinamento = request.form['instrutor_treinamento']
         colaboradores_participantes = request.form.get('colaboradores_participantes')
         carga_horaria_treinamento = request.form['carga_horaria_treinamento']
+        unidade_carga_horaria = request.form['unidade_carga_horaria']
         conteudo_programatico_treinamento = request.form.get('conteudo_programatico_treinamento')
         material_disponibilizado_treinamento = request.form.get('material_disponibilizado_treinamento')
         observacoes_treinamento = request.form.get('observacoes_treinamento')
+        status = request.form['status']
 
         db = get_db()
         try:
             db.execute("""
-                INSERT INTO treinamentos (titulo_treinamento, descricao_treinamento, data_treinamento,
+                INSERT INTO treinamentos (titulo_treinamento, descricao_treinamento, tipo_treinamento, data_treinamento,
                                           hora_treinamento, local_treinamento, instrutor_treinamento,
-                                          colaboradores_participantes, carga_horaria_treinamento,
+                                          colaboradores_participantes, carga_horaria_treinamento, unidade_carga_horaria,
                                           conteudo_programatico_treinamento, material_disponibilizado_treinamento,
-                                          observacoes_treinamento)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """, (titulo_treinamento, descricao_treinamento, data_treinamento, hora_treinamento,
-                  local_treinamento, instrutor_treinamento, colaboradores_participantes,
-                  carga_horaria_treinamento, conteudo_programatico_treinamento,
-                  material_disponibilizado_treinamento, observacoes_treinamento))
+                                          observacoes_treinamento, status)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (titulo_treinamento, descricao_treinamento, tipo_treinamento, data_treinamento,
+                  hora_treinamento, local_treinamento, instrutor_treinamento, colaboradores_participantes,
+                  carga_horaria_treinamento, unidade_carga_horaria, conteudo_programatico_treinamento,
+                  material_disponibilizado_treinamento, observacoes_treinamento, status))
             db.commit()
             app.logger.info(f"Treinamento registrado: {titulo_treinamento}")
             return "Treinamento registrado com sucesso! <a href='/treinamentos'>Voltar para Treinamentos</a>"
         except sqlite3.Error as e:
             return f"Erro ao registrar treinamento: {e}. <a href='/treinamentos'>Tentar novamente</a>"
-        
+
 @app.route('/listar_treinamentos')
 def listar_treinamentos():
     db = get_db()
-    treinamentos = db.execute("SELECT * FROM treinamentos").fetchall()
+    status_filtro = request.args.get('status')
+    query = "SELECT * FROM treinamentos"
+    params = []
+
+    if status_filtro:
+        query += " WHERE status = ?"
+        params.append(status_filtro)
+
+    treinamentos = db.execute(query, params).fetchall()
     return render_template('listar_treinamentos.html', treinamentos=treinamentos)
+
+@app.route('/cadastrar_treinamento')
+def cadastrar_treinamento():
+    return render_template('cadastrar_treinamento.html') # Crie este template
+
+@app.route('/editar_treinamento/<int:id>', methods=['GET'])
+def editar_treinamento(id):
+    db = get_db()
+    treinamento = db.execute("SELECT * FROM treinamentos WHERE id = ?", (id,)).fetchone()
+    if treinamento:
+        return render_template('editar_treinamento.html', treinamento=treinamento)
+    else:
+        return "Treinamento não encontrado."
+
+@app.route('/editar_treinamento/<int:id>', methods=['POST'])
+def editar_treinamento_post(id):
+    if request.method == 'POST':
+        titulo_treinamento = request.form['titulo_treinamento']
+        descricao_treinamento = request.form['descricao_treinamento']
+        tipo_treinamento = request.form['tipo_treinamento']
+        data_treinamento = request.form['data_treinamento']
+        hora_treinamento = request.form['hora_treinamento']
+        local_treinamento = request.form['local_treinamento']
+        instrutor_treinamento = request.form['instrutor_treinamento']
+        colaboradores_participantes = request.form.get('colaboradores_participantes')
+        carga_horaria_treinamento = request.form['carga_horaria_treinamento']
+        unidade_carga_horaria = request.form['unidade_carga_horaria']
+        conteudo_programatico_treinamento = request.form.get('conteudo_programatico_treinamento')
+        material_disponibilizado_treinamento = request.form.get('material_disponibilizado_treinamento')
+        observacoes_treinamento = request.form.get('observacoes_treinamento')
+        status = request.form['status']
+
+        db = get_db()
+        try:
+            db.execute("""
+                UPDATE treinamentos SET titulo_treinamento = ?, descricao_treinamento = ?,
+                                        tipo_treinamento = ?, data_treinamento = ?, hora_treinamento = ?,
+                                        local_treinamento = ?, instrutor_treinamento = ?,
+                                        colaboradores_participantes = ?, carga_horaria_treinamento = ?,
+                                        unidade_carga_horaria = ?, conteudo_programatico_treinamento = ?,
+                                        material_disponibilizado_treinamento = ?, observacoes_treinamento = ?,
+                                        status = ?
+                WHERE id = ?
+            """, (titulo_treinamento, descricao_treinamento, tipo_treinamento, data_treinamento,
+                  hora_treinamento, local_treinamento, instrutor_treinamento,
+                  colaboradores_participantes, carga_horaria_treinamento, unidade_carga_horaria,
+                  conteudo_programatico_treinamento, material_disponibilizado_treinamento,
+                  observacoes_treinamento, status, id))
+            db.commit()
+            app.logger.info(f"Treinamento com ID {id} editado")
+            return redirect(url_for('listar_treinamentos'))
+        except sqlite3.Error as e:
+            return f"Erro ao editar treinamento: {e}. <a href='/editar_treinamento/{id}'>Tentar novamente</a>"
+
+@app.route('/excluir_treinamento/<int:id>')
+def excluir_treinamento(id):
+    db = get_db()
+    db.execute("DELETE FROM treinamentos WHERE id = ?", (id,))
+    db.commit()
+    app.logger.info(f"Treinamento com ID {id} excluído")
+    return redirect(url_for('listar_treinamentos'))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

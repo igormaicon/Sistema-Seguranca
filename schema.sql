@@ -97,13 +97,16 @@ CREATE TABLE treinamentos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     titulo_treinamento TEXT NOT NULL,
     descricao_treinamento TEXT NOT NULL,
+    tipo_treinamento TEXT NOT NULL,  -- Novo campo
     data_treinamento TEXT NOT NULL,
     hora_treinamento TEXT NOT NULL,
     local_treinamento TEXT NOT NULL,
     instrutor_treinamento TEXT NOT NULL,
     colaboradores_participantes TEXT,
     carga_horaria_treinamento INTEGER NOT NULL,
+    unidade_carga_horaria TEXT NOT NULL, -- Novo campo
     conteudo_programatico_treinamento TEXT,
     material_disponibilizado_treinamento TEXT,
-    observacoes_treinamento TEXT
+    observacoes_treinamento TEXT,
+    status TEXT NOT NULL       -- Novo campo
 );

@@ -1,59 +1,29 @@
 {% extends 'base.html' %}
 
-{% block title %}Registro de Treinamentos{% endblock %}
+{% block title %}
+Gerenciamento de Treinamentos
+{% endblock %}
 
 {% block content %}
-<section class="form-section">
-    <h1>Registro de Treinamentos</h1>
-    <form method="POST" action="/registrar_treinamento">
-        <div class="form-group">
-            <label for="titulo_treinamento">Título do Treinamento:</label>
-            <input type="text" id="titulo_treinamento" name="titulo_treinamento" required>
-        </div>
-        <div class="form-group">
-            <label for="descricao_treinamento">Descrição do Treinamento:</label>
-            <textarea id="descricao_treinamento" name="descricao_treinamento" rows="4" required></textarea>
-        </div>
-        <div class="form-group">
-            <label for="data_treinamento">Data do Treinamento:</label>
-            <input type="date" id="data_treinamento" name="data_treinamento" required>
-        </div>
-        <div class="form-group">
-            <label for="hora_treinamento">Hora do Treinamento:</label>
-            <input type="time" id="hora_treinamento" name="hora_treinamento" required>
-        </div>
-        <div class="form-group">
-            <label for="local_treinamento">Local do Treinamento:</label>
-            <input type="text" id="local_treinamento" name="local_treinamento" required>
-        </div>
-        <div class="form-group">
-            <label for="instrutor_treinamento">Instrutor do Treinamento:</label>
-            <input type="text" id="instrutor_treinamento" name="instrutor_treinamento" required>
-        </div>
-        <div class="form-group">
-            <label for="colaboradores_participantes">Colaborador(es) Participante(s):</label>
-            <input type="text" id="colaboradores_participantes" name="colaboradores_participantes">
-        </div>
-        <div class="form-group">
-            <label for="carga_horaria_treinamento">Carga Horária do Treinamento:</label>
-            <input type="number" id="carga_horaria_treinamento" name="carga_horaria_treinamento" required>
-        </div>
-        <div class="form-group">
-            <label for="conteudo_programatico_treinamento">Conteúdo Programático do Treinamento:</label>
-            <textarea id="conteudo_programatico_treinamento" name="conteudo_programatico_treinamento"
-                rows="4"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="material_disponibilizado_treinamento">Material Disponibilizado:</label>
-            <textarea id="material_disponibilizado_treinamento"
-                name="material_disponibilizado_treinamento" rows="4"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="observacoes_treinamento">Observações:</label>
-            <textarea id="observacoes_treinamento" name="observacoes_treinamento" rows="4"></textarea>
-        </div>
-        <button type="submit" class="form-button">Registrar Treinamento</button>
-    </form>
-    <p><a href="/listar_treinamentos">Listar Treinamentos</a> | <a href="/">Voltar para a Página Principal</a></p>
+<section class="treinamentos-section">
+    <h1>
+        Gerenciamento de Treinamentos
+    </h1>
+    <p>
+        Esta página permite gerenciar os treinamentos.
+    </p>
+
+    <div class="treinamentos-actions">
+        <a href="/cadastrar_treinamento" class="action-button">
+            <i class="fas fa-plus-circle">
+            </i>
+            Cadastrar Novo Treinamento
+        </a>
+        <a href="/listar_treinamentos" class="action-button">
+            <i class="fas fa-list-ul">
+            </i>
+            Listar Treinamentos
+        </a>
+    </div>
 </section>
 {% endblock %}
